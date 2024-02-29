@@ -2,7 +2,7 @@
 
 An interactive app to calculate idem using Django and SymPy.
 
-live demo [right here.](https://sweet-torrone-cef76c.netlify.app/)
+live demo [right here.](taylor-series-calculator.up.railway.app)
 
 ![project preview](preview.jpeg)
 

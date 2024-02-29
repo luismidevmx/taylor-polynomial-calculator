@@ -1,4 +1,3 @@
 UI = {
     "title": "Obtained Result 🎉🥳🎊",
-    
 }

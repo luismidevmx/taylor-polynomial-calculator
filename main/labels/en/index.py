@@ -5,5 +5,5 @@ UI = {
         "x0": "Initial value",
         "grade": "Series grade",
         "go": "Go",
-    }
+    },
 }

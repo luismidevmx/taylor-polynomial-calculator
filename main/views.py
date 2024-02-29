@@ -1,7 +1,13 @@
 from django.shortcuts import render
 
 from main.taylor import taylor
-from main.languages import error_labels, index_labels, solve_labels, error_module, select_language as sl
+from main.languages import (
+    error_labels,
+    index_labels,
+    solve_labels,
+    error_module,
+    select_language as sl,
+)
 
 
 def index(request, lang="en"):
@@ -38,10 +44,20 @@ def solve(request, lang="en"):
         f = request.GET["f"].replace(r"\n?\r?\t", "")
 
         if grade < 3:
-            return render(request, "error.html", error_labels(lang, errors.GRADE_TOO_LOW_ERROR), status=400)
+            return render(
+                request,
+                "error.html",
+                error_labels(lang, errors.GRADE_TOO_LOW_ERROR),
+                status=400,
+            )
 
         if grade > 20:
-            return render(request, "error.html", error_labels(lang, errors.GRADE_TOO_HIGH_ERROR), status=400)
+            return render(
+                request,
+                "error.html",
+                error_labels(lang, errors.GRADE_TOO_HIGH_ERROR),
+                status=400,
+            )
 
         return render(
             request,
@@ -56,16 +72,33 @@ def solve(request, lang="en"):
         err = str(e).split(":", 1)[0]
 
         if err == "invalid literal for int() with base 10":
-            return render(request, "error.html", error_labels(lang, errors.INVALID_NUMBER_ERROR), status=400)
+            return render(
+                request,
+                "error.html",
+                error_labels(lang, errors.INVALID_NUMBER_ERROR),
+                status=400,
+            )
 
         if err == "could not convert string to float":
-            return render(request, "error.html", error_labels(lang, errors.INVALID_X0_ERROR), status=400)
+            return render(
+                request,
+                "error.html",
+                error_labels(lang, errors.INVALID_X0_ERROR),
+                status=400,
+            )
 
-        return render(request, "error.html", error_labels(lang, errors.INVALID_EXPRESSION_ERROR), status=400)
+        return render(
+            request,
+            "error.html",
+            error_labels(lang, errors.INVALID_EXPRESSION_ERROR),
+            status=400,
+        )
 
     except Exception as e:
         print(f"{type(e).__name__}: {e}")
-        return render(request, "error.html", error_labels(lang, errors.UNKNOWN_ERROR), status=500)
+        return render(
+            request, "error.html", error_labels(lang, errors.UNKNOWN_ERROR), status=500
+        )
 
 
 def index_en(request):

@@ -29,10 +29,28 @@ SECRET_KEY = env("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env("DEBUG") in ["True", "true", "1", "yes", "y", "on"]
 
-ALLOWED_HOSTS = [env("DOMAIN"), env("LOCALHOST"), "localhost"]
-CSRF_TRUSTED_ORIGINS = [env("DOMAIN"), env("LOCALHOST")]
+ALLOWED_HOSTS = [
+    env("RAILWAY_PUBLIC_DOMAIN"),
+    f"http://{env('RAILWAY_PUBLIC_DOMAIN')}",
+    f"https://{env('RAILWAY_PUBLIC_DOMAIN')}",
+    env("DOMAIN"),
+    f"http://{env('LOCALHOST')}",
+    f"https://{env('LOCALHOST')}",
+    env("LOCALHOST"),
+    "localhost",
+]
+CSRF_TRUSTED_ORIGINS = [
+    env("RAILWAY_PUBLIC_DOMAIN"),
+    f"http://{env('RAILWAY_PUBLIC_DOMAIN')}",
+    f"https://{env('RAILWAY_PUBLIC_DOMAIN')}",
+    env("DOMAIN"),
+    f"http://{env('LOCALHOST')}",
+    f"https://{env('LOCALHOST')}",
+    env("LOCALHOST"),
+]
 
 # Application definition
+
 
 INSTALLED_APPS = [
     "django.contrib.admin",
