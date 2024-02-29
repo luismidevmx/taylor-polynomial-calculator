@@ -30,7 +30,7 @@ SECRET_KEY = env("SECRET_KEY")
 DEBUG = env("DEBUG") in ["True", "true", "1", "yes", "y", "on"]
 
 ALLOWED_HOSTS = [env("DOMAIN"), env("LOCALHOST"), "localhost"]
-
+CSRF_TRUSTED_ORIGINS = [env("DOMAIN"), env("LOCALHOST")]
 
 # Application definition
 
@@ -41,11 +41,13 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "whitenoise.runserver_nostatic",
     "main",
 ]
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -125,6 +127,10 @@ STATIC_URL = "static/"
 STATICFILES_DIRS = [
     BASE_DIR / "main/static",
 ]
+
+STATIC_ROOT = BASE_DIR / "staticfiles"
+
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
