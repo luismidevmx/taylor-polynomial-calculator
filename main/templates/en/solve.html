@@ -1,0 +1,207 @@
+{% extends "base.html" %} {% load static %} {% block content %}
+
+<section class="mb-3 d-flex justify-content-center">
+    <a href="/{{ lang }}" class="btn btn-light">{{ buttons.back }}</a>
+</section>
+
+<section class="mb-3" id="overview">
+    <h2>Result</h2>
+
+    <div class="row bg-light p-3">
+        <div class="col col-12">Your function:</div>
+        <div class="col col-12">
+            <div class="alert alert-warning py-0 overflow-x-auto">$$ {{ initial_function.latex }} $$</div>
+        </div>
+        <div class="col col-12">Approximated Taylor Series:</div>
+        <div class="col col-12">
+            <div class="alert alert-success py-0">
+                <p class="overflow-x-auto">$$ f(x) \approx {{ result.latex }} $$</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section
+    class="mb-3"
+    id="chart"
+    x-data="{
+            from: -1,
+            to: 1,
+            polys: [
+                {% for step in steps %}
+                    x => {{ step.current_tp.javascript }},
+                {% endfor %}  
+            ],
+            initialFunction: x => {{ initial_function.javascript }},
+        }"
+>
+    <h2>Graph</h2>
+
+    <div class="overflow-x-auto d-flex justify-content-center mb-3">
+        <div style="width: 800px">
+            <canvas
+                id="chart-target"
+                x-init="graphicate({
+                    xValues: range(-1, 1, 11),
+                    initialFunction,
+                    polys
+                })"
+            ></canvas>
+        </div>
+    </div>
+
+    <div class="row justify-content-center pb-5">
+        <div class="col col-md-5 p-4 bg-light">
+            <div class="form-group mb-2 col">
+                <label class="form-label" for="input-from"> From </label>
+                <input x-model.number="from" type="number" id="input-from" class="form-control" step=".0001" />
+            </div>
+
+            <div class="form-group mb-2 col">
+                <label class="form-label" for="input-to"> To </label>
+                <input x-model.number="to" type="number" id="input-to" class="form-control" step=".0001" />
+            </div>
+
+            <div class="form-group mb-2 col">
+                <button
+                    type="submit"
+                    class="btn btn-primary"
+                    @click="graphicate({
+                        xValues: range(from, to, 11),
+                        initialFunction,
+                        polys
+                    })"
+                >
+                    Graph
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="mb-3" id="steps">
+    <h2>Procedure</h2>
+
+    <p>The \( n \)th-degree Taylor Series for a function \( f(x) \) whose value and values of its derivatives are known at a point \( x_0 \) is given by the equation:</p>
+    <p class="overflow-x-auto">$$ f(x) \approx k_0 + k_1 (x-x_0) + k_2 (x-x_0)^2 + k_3 (x-x_0)^3 + \cdots + k_n (x-x_0)^n $$</p>
+
+    <p>Where each \( k_i \) corresponds to the quotient of the \( i \)th derivative evaluated at \( x_0 \), over the factorial of \( i \)</p>
+    <p class="overflow-x-auto">$$ k_i = \frac{f^{(i)}(x_0)}{i!} $$</p>
+
+    <h4 class="text-dark">Calculate the coefficients \( k \)</h4>
+
+    {% for step in steps %}
+    <div class="row bg-light p-3 mb-3">
+        <h6 class="text-bold">Calculating the factor \( k_{{ step.i }} \).</h6>
+
+        {% if step.i == 0 %}
+
+        <p>To obtain \( k_0 \), simply evaluate the function:</p>
+        <p>$$ k_0 = f(x_0) $$</p>
+
+        <p>If the function is:</p>
+        <div class="alert alert-light py-0">
+            <p class="overflow-x-auto">$$ f(x) ={{ step.derivative.latex }} $$</p>
+        </div>
+
+        <p>When evaluated at \( x_0 = {{ x0 }} \), the result is:</p>
+        <div class="alert alert-primary py-0">
+            <p class="overflow-x-auto">$$ k_0 = f({{ x0 }}) = {{ step.value }} $$</p>
+        </div>
+
+        {% elif step.i == 1 %}
+
+        <p>To obtain \( k_1 \), apply the formula:</p>
+        <p>$$ k_1 = f'(x_0) $$</p>
+
+        <p>The derivative of the function is:</p>
+        <div class="alert alert-light py-0">
+            <p class="overflow-x-auto">$$ f'(x) ={{ step.derivative.latex }} $$</p>
+        </div>
+
+        <p>When evaluated at \( x_0 = {{ x0 }} \), the result is:</p>
+        <div class="alert alert-primary py-0">
+            <p class="overflow-x-auto">$$ k_0 = f'({{ x0 }}) = {{ step.value }} $$</p>
+        </div>
+
+        {% else %}
+        <p>To calculate \( k_{ {{ step.i }} } \), apply the formula:</p>
+        <p>$$ k_{ {{ step.i }} } = \frac{f^{( {{ step.i }} )}(x_0)}{ {{ step.i }} !} $$</p>
+
+        <p>The \( {{ step.i }} \)th derivative is:</p>
+        <div class="alert alert-light py-0">
+            <p class="overflow-x-auto">$$ f^{( {{ step.i }} )}(x) ={{ step.derivative.latex }} $$</p>
+        </div>
+
+        <p>When evaluated at \( x_0 = {{ x0 }} \), the result is:</p>
+        <div class="alert alert-light py-0">
+            <p class="overflow-x-auto">$$ f^{( {{ step.i }} )}({{ x0 }}) = {{ step.value }} $$</p>
+        </div>
+
+        <p>Applying the formula:</p>
+        <div class="alert alert-primary py-0">
+            <p class="overflow-x-auto">$$ k_{{ step.i }} = \frac{ f^{({{ step.i }})}({{ x0 }}) }{ {{ step.i }}! } = \frac{ {{ step.value }} }{ {{ step.factorial }} } = {{ step.factor }} $$</p>
+        </div>
+        {% endif %}
+    </div>
+    {% endfor %}
+
+    <h4 class="text-dark">Construct the Series</h4>
+
+    <div class="row bg-light p-3 mb-3">
+        <h6 class="text-bold">Substitute the coefficients \( k \) in the formula</h6>
+
+        <p class="overflow-x-auto">$$ f(x) \approx k_0 + k_1 (x-x_0) + k_2 (x-x_0)^2 + k_3 (x-x_0)^3 + \cdots + k_n (x-x_0)^n $$</p>
+
+        <p>Substituting:</p>
+        <div class="alert alert-primary py-0">
+            <p class="overflow-x-auto">$$ f(x) \approx {{ result.latex }} $$</p>
+        </div>
+    </div>
+</section>
+
+<section class="mb-3" id="copy-codes">
+    <h2>Codes</h2>
+
+    <div class="row p-3 mb-3">
+        <h6 class="text-bold">Original function</h6>
+        <pre class="bg-dark text-white rounded"><code>
+// linear
+{{ initial_function.inline }}
+// latex
+{{ initial_function.latex }}
+// javascript
+{{ initial_function.javascript }}
+    </code></pre>
+
+        <h6 class="text-bold">Result</h6>
+
+        <pre class="bg-dark text-white rounded"><code>
+// linear
+{{ result.inline }}
+// latex
+{{ result.latex }}
+// javascript
+{{ result.javascript }}
+        </code></pre>
+
+        <h6 class="text-bold">Derivatives</h6>
+
+        {% for step in steps %} {% if step.i > 0 %}
+        <p>Order {{ step.i }}</p>
+        <pre class="bg-dark text-white rounded"><code>
+// linear
+{{ step.derivative.inline }}
+// latex
+{{ step.derivative.latex }}
+// javascript
+{{ step.derivative.javascript }}
+        </code></pre>
+        {% endif %} {% endfor %}
+    </div>
+</section>
+
+{% endblock %} {% block extend_cdn %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js" integrity="sha512-CQBWl4fJHWbryGE+Pc7UAxWMUMNMWzWxF4SQo9CgkJIN1kx6djDQZjh3Y8SZ1d+6I+1zze6Z7kHXO7q3UyZAWw==" crossorigin="anonymous"></script>
+<script async src="{% static 'js/graphicate.js' %}"></script>
+{% endblock %}

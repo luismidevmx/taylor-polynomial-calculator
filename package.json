@@ -1,0 +1,19 @@
+{
+  "name": "django-taylor-series",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "create-app": "django-admin startapp new_app",
+    "create-env": "conda env create -f environment.yml",
+    "dev": "python manage.py runserver",
+    "export-env": "conda env export > environment.yml",
+    "export-pip": "pip freeze > requirements.txt",
+    "migrate": "python manage.py makemigrations && python manage.py migrate",
+    "start": "conda activate django-taylor && python manage.py runserver",
+    "format": "black . -l 250"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT"
+}

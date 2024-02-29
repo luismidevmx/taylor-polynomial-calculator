@@ -1,0 +1,77 @@
+{% extends "base.html" %} {% block head %}
+
+<meta name="description" content="Calculate Taylor Series step by step with this interactive calculator. Learn how to use Taylor series to approximate functions." />
+<meta name="keywords" content="Taylor Series, Taylor series, calculator, approximation, mathematics" />
+
+{% endblock %} {% block content %}
+
+<form
+    class="row justify-content-center pb-5"
+    x-data="{ 
+        grade: $persist(4),
+        x0: $persist(0),
+        f: $persist('sin(x)'),
+    }"
+    action="/{{ lang }}/solve"
+>
+    <div class="col col-12 col-md-5 p-4 bg-light">
+        <div class="form-group">
+            <label class="form-label" for="input-f"> {{ form.f }} \( f(x) =\) </label>
+            <textarea name="f" x-model="f" id="input-f" class="form-control"></textarea>
+        </div>
+
+        <div class="form-group mb-2 col col-12">
+            <label class="form-label" for="input-x0"> {{ form.x0 }} \(x_0 =\) </label>
+            <input name="x0" x-model="x0" type="number" id="input-x0" class="form-control" value="0" step=".00000001" />
+        </div>
+
+        <div class="form-group mb-2 col col-12">
+            <label class="form-label" for="input-grade"> {{ form.grade }} </label>
+
+            <input name="grade" x-model="grade" type="range" class="form-range form-range-success" id="input-grade" x-model="grade" min="3" max="20" step="1" />
+
+            <label class="form-label d-flex justify-content-between" for="input-grade">
+                <p>3</p>
+                <b x-text="grade"></b>
+                <p>20</p>
+            </label>
+        </div>
+
+        <button type="submit" class="btn btn-primary">{{ form.go }}</button>
+    </div>
+</form>
+
+<section>
+    <h2>Taylor Series Definition ❓</h2>
+    <p>The Taylor series is a representation of a function as an infinite sum of terms calculated from the values of the function's derivatives at a single point. The Series form of the Taylor series, known as the Taylor Series, approximates a function with a finite-degree Series.</p>
+    <h3>Taylor Series Formula</h3>
+    <p>The \( n \)th-degree Taylor Series for a function \( f(x) \) centered at a point \( a \) is given by:</p>
+    \[P_n(x) = f(x_0) + f'(x_0)(x-x_0) + \frac{f''(x_0)}{2!}(x-x_0)^2 + \frac{f'''(x_0)}{3!}(x-x_0)^3 + \cdots + \frac{f^{(n)}(x_0)}{n!}(x-x_0)^n\]
+    <p>Where:</p>
+    <ul class="ml-4">
+        <li>\( f(x_0) \), \( f'(x_0) \), \( f''(x_0) \), \( f'''(x_0) \), etc., represent the values of the function and its derivatives evaluated at \( x = a \).</li>
+        <li>\( n \) is the degree of the Series.</li>
+        <li>\( f^{(n)}(x_0) \) denotes the \( n \)th derivative of \( f(x) \) evaluated at \( x = a \).</li>
+    </ul>
+
+    <div class="d-flex justify-content-center">
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/epgwuzzDHsQ?si=Es-k6-fPxfbJuHxE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+    </div>
+
+    <h3>Usage</h3>
+    <p>The Taylor series provides a method for approximating a function using a Series, which can be useful in various mathematical and computational contexts, such as numerical analysis, physics, and engineering. It allows the approximation of complex functions with simpler functions, facilitating analysis and computation.</p>
+
+    <h2>Precision and Convergence</h2>
+    <p>The accuracy of the Taylor Series approximation depends on the function and the degree of the Series used. As the degree of the Series increases, the approximation typically improves, especially in the vicinity of the expansion point \( x = a \).</p>
+    <p>However, it is important to note that the Taylor series only converges to the original function within a certain radius of convergence around the expansion point. Beyond this radius, the approximation may not be valid.</p>
+
+    <h3>Example</h3>
+    <p>Consider the function \( f(x) = e^x \) centered at \( a = 0 \) (Maclaurin series). The Maclaurin series expansion of \( e^x \) is:</p>
+    \[e^x = 1 + x + \frac{x^2}{2!} + \frac{x^3}{3!} + \frac{x^4}{4!} + \cdots\]
+    <p>This series can be used to approximate \( e^x \) for different values of \( x \).</p>
+
+    <h3>Conclusion</h3>
+    <p>The Series form of the Taylor series provides a powerful tool for approximating functions with Series, enabling simplified analysis and computations in various mathematical and scientific domains.</p>
+</section>
+
+{% endblock %}

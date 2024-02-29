@@ -1,0 +1,97 @@
+{% extends "base.html" %} {% block head %}
+
+<meta name="description" content="Calcula Series de Taylor gratis paso a paso con esta calculadora interactiva. Aprende cómo utilizar series de Taylor para aproximar funciones." />
+<meta name="keywords" content="Serie de Taylor, serie de Taylor, calculadora, aproximación, matemáticas" />
+
+{% endblock %} {% block content %}
+
+<form
+    class="row justify-content-center pb-5"
+    x-data="{ 
+        grade: $persist(4),
+        x0: $persist(0),
+        f: $persist('sin(x)'),
+    }"
+    action="/es/solve"
+>
+    <div class="col col-12 col-md-5 p-4 bg-light">
+        <div class="form-group">
+            <label class="form-label" for="input-f">
+                Función a evaluar (en formato
+                <a class="link link-primary" href="https://asciimath.org" target="_blank" rel="noopener noreferrer"> AsciiMath </a>
+                ). \( f(x) =\)
+            </label>
+            <textarea name="f" x-model="f" id="input-f" class="form-control"></textarea>
+        </div>
+
+        <div class="form-group mb-2 col col-12">
+            <label class="form-label" for="input-x0"> Valor inicial \(x_0 =\) </label>
+            <input name="x0" x-model="x0" type="number" id="input-x0" class="form-control" value="0" step=".00000001" />
+        </div>
+
+        <div class="form-group mb-2 col col-12">
+            <label class="form-label" for="input-grade"> Grado de la Serie </label>
+
+            <input name="grade" x-model="grade" type="range" class="form-range form-range-success" id="input-grade" x-model="grade" min="3" max="20" step="1" />
+
+            <label class="form-label d-flex justify-content-between" for="input-grade">
+                <p>3</p>
+                <b x-text="grade"></b>
+                <p>20</p>
+            </label>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Calcular</button>
+    </div>
+
+    <!-- <div class="col col-12 col-md-5 p-4">
+    <div class="form-group">
+        <div class="form-check form-switch mb-2 col col-lg-8">
+            <input name="allow-eval"  class="form-check-input"type="checkbox" id="input-allow-eval">
+            <label class="form-check-label" for="input-allow-eval">Evaluar en un punto x</label>
+        </div>
+    </div>
+    
+    <div class="form-group">
+        <label class="form-label" for="input-a">Valor a evaluar</label>
+        <input name="a" type="number" disabled id="input-a" class="form-control" value="0">
+    </div>
+    
+    <button type="submit" class="btn btn-primary">Calcular</button>
+</div> -->
+</form>
+
+<section>
+    <h2>Definición de la Serie de Taylor ❓</h2>
+    <p>La serie de Taylor es una representación de una función como una suma infinita de términos calculados a partir de los valores de las derivadas de la función en un solo punto. La forma polinómica de la serie de Taylor, conocida como Serie de Taylor, aproxima una función con un Serie de grado finito.</p>
+    <h3>Fórmula de la Serie de Taylor</h3>
+    <p>El Serie de Taylor de grado \( n \) para una función \( f(x) \) centrada en un punto \( a \) está dado por:</p>
+    \[P_n(x) = f(x_0) + f'(x_0)(x-x_0) + \frac{f''(x_0)}{2!}(x-x_0)^2 + \frac{f'''(x_0)}{3!}(x-x_0)^3 + \cdots + \frac{f^{(n)}(x_0)}{n!}(x-x_0)^n\]
+    <p>Donde:</p>
+    <ul class="ml-4">
+        <li>\( f(x_0) \), \( f'(x_0) \), \( f''(x_0) \), \( f'''(x_0) \), etc., representan los valores de la función y sus derivadas evaluadas en \( x = a \).</li>
+        <li>\( n \) es el grado de la Serie.</li>
+        <li>\( f^{(n)}(x_0) \) denota la \( n \)-ésima derivada de \( f(x) \) evaluada en \( x = a \).</li>
+    </ul>
+
+    <div class="d-flex justify-content-center">
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/YglsE_cQY7M?si=X5Hj8TEgXb0yd60O" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+    </div>
+
+    <h3>Uso</h3>
+    <p>La serie de Taylor proporciona un método para aproximar una función mediante un Serie, lo que puede ser útil en varios contextos matemáticos y computacionales, como análisis numérico, física e ingeniería. Permite la aproximación de funciones complejas con funciones más simples, facilitando el análisis y la computación.</p>
+
+    <h2>Precisión y Convergencia</h2>
+    <p>La precisión de la aproximación de la Serie de Taylor depende de la función y del grado de la Serie utilizado. A medida que aumenta el grado de la Serie, la aproximación suele mejorar, especialmente en las cercanías del punto de expansión \( x = a \).</p>
+    <p>Sin embargo, es importante tener en cuenta que la serie de Taylor solo converge a la función original dentro de cierto radio de convergencia alrededor del punto de expansión. Más allá de este radio, la aproximación puede no ser válida.</p>
+
+    <h3>Ejemplo</h3>
+    <p>Considere la función \( f(x) = e^x \) centrada en \( a = 0 \) (serie de Maclaurin). La expansión de la serie de Maclaurin de \( e^x \) es:</p>
+    \[e^x = 1 + x + \frac{x^2}{2!} + \frac{x^3}{3!} + \frac{x^4}{4!} + \cdots\]
+    <p>Esta serie se puede utilizar para aproximar \( e^x \) para diferentes valores de \( x \).</p>
+
+    <h3>Conclusión</h3>
+    <p>La forma polinómica de la serie de Taylor proporciona una herramienta poderosa para aproximar funciones con Series, lo que permite análisis y computaciones simplificadas en diversos ámbitos matemáticos y científicos.</p>
+</section>
+
+{% endblock %}
