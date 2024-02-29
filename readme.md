@@ -4,7 +4,7 @@ An interactive app to calculate idem using Django and SymPy.
 
 live demo [right here.](https://sweet-torrone-cef76c.netlify.app/)
 
-![project preview](main\static\img\preview.jpeg)
+![project preview](preview.jpeg)
 
 ## Features
 
