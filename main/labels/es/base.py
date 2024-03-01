@@ -10,5 +10,5 @@ UI = {
     "buttons": {
         "back": "Regresar",
     },
-    "title": "Calculadora de la Serie de Taylor paso a paso 💯✅",
+    "title": "Calculadora de Series de Taylor gratis paso a paso 💯✅",
 }

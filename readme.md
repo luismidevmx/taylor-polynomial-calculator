@@ -2,7 +2,7 @@
 
 An interactive app to calculate idem using Django and SymPy.
 
-live demo [right here.](taylor-series-calculator.up.railway.app)
+live demo [right here.](https://taylor-series-calculator.up.railway.app/)
 
 ![project preview](preview.jpeg)
 
@@ -32,3 +32,8 @@ Frontend (via cdn):
 ## Pending
 
 - [ ] Add dynamic support for primary an new languages, at the moment html files are staticly written and must be updated one by one.
+
+## Based on
+
+- [Django tu primer sitio Web, Generador de Contraseñas](https://youtu.be/I0m92SBfDI8?si=tJS1g_-5IbDWmPCj)
+- [Sube Proyectos de Django y Django REST Framework a Railway.app (Plataforma de la nube)](https://youtu.be/ZNnk81ifUTo?si=y0rcnrHjglVq2jjt)
